@@ -1,28 +1,35 @@
 """File that contains piece classes"""
 import numpy as np
-
+from helper_functions import rook_move_helper_column, rook_move_helper_row
 class Piece:
     def __init__(self, colour, location, board):
         """Create a piece object with location information"""
         self.colour = colour
         self.location = location
         self.board = board
+        self.board[self.location[0]][self.location[1]] = '  '
         self._has_moved = False
         self._colour_letter = self.colour[0]
 
-
-    def move_piece(self, board, move):
-        pass
+    def move_piece(self, move):
+        return 'implement this'
 
     def letter(self):
         """returns letter that represents that piece, i.e N for knight"""
-        return 'yo no lo'
+        return 'implement this'
 
     def print_board(self):
         return np.array(self.board)
 
+    def return_board(self):
+        return self.board
+
+    def possible_moves(self):
+        return 'implement this'
+
 
 class Rook(Piece):
+    """Rook class"""
     def possible_moves(self):
         """returns list of possible moves for the given board state"""
         # board always square
@@ -33,7 +40,6 @@ class Rook(Piece):
         possible_vertical = []
         row = self.location[0]
         column = self.location[1]
-
 
         lower_vertical_range = list(range(row))
         lower_vertical_range.reverse()
@@ -70,29 +76,18 @@ class Rook(Piece):
             return 'Pick a valid move pls'
 
 
-def rook_move_helper_column(moves_range, colour_letter, board, column):
-    # helps with creating possible moves
-    possible_moves_list = []
-    for num in moves_range:
-        if board[num][column] == '  ':
-            possible_moves_list.append((num, column))
-        elif board[num][column][0] != colour_letter:
-            possible_moves_list.append((num, column))
-            break
-        else:
-            break
-    return possible_moves_list
+    def letter(self):
+        return 'R'
 
 
-def rook_move_helper_row(moves_range, colour_letter, board, row):
-    # helps with creating possible moves
-    possible_moves_list = []
-    for num in moves_range:
-        if board[row][num] == '  ':
-            possible_moves_list.append((row, num))
-        elif board[row][num][0] != colour_letter:
-            possible_moves_list.append((row, num))
-            break
-        else:
-            break
-    return possible_moves_list
+class King(Piece):
+    """King piece"""
+    def possible_moves(self):
+        pass
+
+    def move_piece(self, board, move):
+        pass
+
+    def letter(self):
+        return 'K'
+
