@@ -9,12 +9,20 @@ class Piece:
         self.colour = colour
         self.location = location
         self.board = board
-        self.board[self.location[0]][self.location[1]] = '  '
         self._has_moved = False
         self._colour_letter = self.colour[0]
+        self.board[self.location[0]][self.location[1]] = f'{self._colour_letter}{self.letter()}'
+        self.coord_dict_rows = {0: '8', 1: '7', 2: '6', 3: '5', 4: '4', 5: '3', 6: '2', 7: '1'}
+        self.coord_dict_columns = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
     def move_piece(self, move):
-        return 'implement this'
+        if move in self.possible_moves():
+            self.board[self.location[0]][self.location[1]] = '  '
+            self.location = move
+            self.board[self.location[0]][self.location[1]] = f'{self._colour_letter}{self.letter()}'
+            self._has_moved = True
+        else:
+            return 'Pick a valid move pls'
 
     def letter(self):
         """returns letter that represents that piece, i.e N for knight"""
@@ -26,14 +34,22 @@ class Piece:
     def return_board(self):
         return self.board
 
-    def possible_moves(self):
+    def possible_moves(self, check=False):
         return 'implement this'
+
+    def possible_moves_notation(self, check=False):
+        chess_notation_list = []
+        for row, column in self.possible_moves(check):
+            chess_notation_list.append(f'{self.coord_dict_columns[column]}{self.coord_dict_rows[row]}')
+        chess_notation_list.sort()
+        return chess_notation_list
 
 
 class Rook(Piece):
     """Rook class"""
     def possible_moves(self, check=False):
-        """returns list of possible moves for the given board state"""
+        """returns list of possible moves for the given board state,
+        check makes it so first piece of same colour is also considered"""
         # board always square
         # rook moves up-down, left-right
         # check possible moves not yet considering other pieces
@@ -73,26 +89,58 @@ class Rook(Piece):
         # sample_board[row][column] = 'R '
         return possible
 
-    def move_piece(self, move):
-        if move in self.possible_moves():
-            self.board[self.location[0]][self.location[1]] = '  '
-            self.location = move
-            self.board[self.location[0]][self.location[1]] = 'gp'  # gp is placeholder name
-        else:
-            return 'Pick a valid move pls'
-
     def letter(self):
         return 'R'
 
 
 class King(Piece):
     """King class"""
-    def possible_moves(self):
-        pass
+    def possible_moves(self, check=False):
+        """Does not include moves that would put king in check,
+        these will be covered in main loop"""
+        lower_horizontal = []
+        lower_vertical = []
+        upper_horizontal = []
+        upper_vertical = []
+        lower_left_diag = []
+        lower_right_diag = []
+        upper_left_diag = []
+        upper_right_diag = []
+        row = self.location[0]
+        column = self.location[1]
 
-    def move_piece(self, move):
-        pass
+        if row != 0:
+            if self.board[row-1][column][0] != self._colour_letter:
+                lower_vertical = [(row - 1, column)]
+            if column != 0:
+                if self.board[row - 1][column-1][0] != self._colour_letter:
+                    upper_left_diag = [(row-1, column-1)]
+            if column != 7:
+                if self.board[row - 1][column + 1][0] != self._colour_letter:
+                    upper_right_diag = [(row-1, column+1)]
+
+        if row != 7:
+            if self.board[row+1][column][0] != self._colour_letter:
+                upper_vertical = [(row + 1, column)]
+            if column != 0:
+                if self.board[row+1][column-1][0] != self._colour_letter:
+                    lower_left_diag = [(row+1, column-1)]
+            if column != 7:
+                if self.board[row+1][column+1][0] != self._colour_letter:
+                    lower_right_diag = [(row+1, column+1)]
+
+        if column != 0:
+            if self.board[row][column-1][0] != self._colour_letter:
+                lower_horizontal = [(row, column-1)]
+
+        if column != 7:
+            if self.board[row][column+1][0] != self._colour_letter:
+                upper_horizontal = [(row, column+1)]
+
+        possible = upper_vertical + upper_horizontal + lower_vertical + lower_horizontal + \
+            lower_left_diag + lower_right_diag + upper_right_diag + upper_left_diag
+
+        return possible
 
     def letter(self):
         return 'K'
-
