@@ -1,6 +1,8 @@
 """File that contains piece classes"""
 import numpy as np
 from helper_functions import rook_move_helper_column, rook_move_helper_row
+
+
 class Piece:
     def __init__(self, colour, location, board):
         """Create a piece object with location information"""
@@ -30,34 +32,38 @@ class Piece:
 
 class Rook(Piece):
     """Rook class"""
-    def possible_moves(self):
+    def possible_moves(self, check=False):
         """returns list of possible moves for the given board state"""
         # board always square
         # rook moves up-down, left-right
         # check possible moves not yet considering other pieces
-        # self.location[0][1] is vertical coord 0 horizontal 1 ??????
+
         possible_horizontal = []
         possible_vertical = []
         row = self.location[0]
         column = self.location[1]
 
+        # setup of possible vertical moves
         lower_vertical_range = list(range(row))
         lower_vertical_range.reverse()
         upper_vertical_range = list(range(len(self.board)-row-1))
         for x, num in enumerate(upper_vertical_range):
             upper_vertical_range[x] += row + 1
 
-        possible_vertical += rook_move_helper_column(lower_vertical_range, self._colour_letter, self.board, column)
-        possible_vertical += rook_move_helper_column(upper_vertical_range, self._colour_letter, self.board, column)
+        possible_vertical += rook_move_helper_column(lower_vertical_range, self._colour_letter, self.board, column,
+                                                     check)
+        possible_vertical += rook_move_helper_column(upper_vertical_range, self._colour_letter, self.board, column,
+                                                     check)
 
+        # setup of possible horizontal moves
         lower_horizontal_range = list(range(column))
         lower_horizontal_range.reverse()
         upper_horizontal_range = list(range(len(self.board)-column-1))
         for x, num in enumerate(upper_horizontal_range):
             upper_horizontal_range[x] += column + 1
 
-        possible_horizontal += rook_move_helper_row(lower_horizontal_range, self._colour_letter, self.board, row)
-        possible_horizontal += rook_move_helper_row(upper_horizontal_range, self._colour_letter, self.board, row)
+        possible_horizontal += rook_move_helper_row(lower_horizontal_range, self._colour_letter, self.board, row, check)
+        possible_horizontal += rook_move_helper_row(upper_horizontal_range, self._colour_letter, self.board, row, check)
 
         possible = set(possible_vertical + possible_horizontal)
         # sample_board = board.copy()
@@ -75,17 +81,16 @@ class Rook(Piece):
         else:
             return 'Pick a valid move pls'
 
-
     def letter(self):
         return 'R'
 
 
 class King(Piece):
-    """King piece"""
+    """King class"""
     def possible_moves(self):
         pass
 
-    def move_piece(self, board, move):
+    def move_piece(self, move):
         pass
 
     def letter(self):
