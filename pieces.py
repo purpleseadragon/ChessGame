@@ -1,5 +1,4 @@
 """File that contains piece classes"""
-import numpy as np
 from helper_functions import rook_move_helper_column, rook_move_helper_row
 
 
@@ -25,11 +24,12 @@ class Piece:
             return 'Pick a valid move pls'
 
     def letter(self):
-        """returns letter that represents that piece, i.e N for knight"""
+        """returns letter that represents that piece, eg N for knight"""
         return 'implement this'
 
     def print_board(self):
-        return np.array(self.board)
+        for row in self.board:
+            print(row)
 
     def return_board(self):
         return self.board
@@ -144,3 +144,19 @@ class King(Piece):
 
     def letter(self):
         return 'K'
+
+
+class Queen(Piece):
+    pass
+
+
+class Bishop(Piece):
+    pass
+
+
+class Pawn(Piece):
+    pass
+
+
+class Knight(Piece):
+    pass

@@ -1,3 +1,8 @@
 Todo list
-implement castling
-game with king and 2 rooks vs king
+order of main while loop
+-> check if king is in checkmate
+-> prompt to make a move
+-> if move invalid prompt to make another valid move
+-> if multiple pieces can make move reprompt asking for more info eg Rfe3 instead of Re3
+-> if results in check, reprompt asking the player to make a valid move
+-> else make that move
