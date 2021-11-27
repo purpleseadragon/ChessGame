@@ -147,16 +147,20 @@ class King(Piece):
 
 
 class Queen(Piece):
-    pass
+    def letter(self):
+        return 'Q'
 
 
 class Bishop(Piece):
-    pass
+    def letter(self):
+        return 'B'
 
 
 class Pawn(Piece):
-    pass
+    def letter(self):
+        return ''
 
 
 class Knight(Piece):
-    pass
+    def letter(self):
+        return 'N'

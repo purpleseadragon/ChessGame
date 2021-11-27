@@ -6,3 +6,6 @@ order of main while loop
 -> if multiple pieces can make move reprompt asking for more info eg Rfe3 instead of Re3
 -> if results in check, reprompt asking the player to make a valid move
 -> else make that move
+
+
+!!!If multiple of the same type of piece can make the same move implement!!!
