@@ -6,7 +6,7 @@ coord_dict = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7,
 
 
 def move_converter_helper(notation_length, move_in_notation, pieces_list, move_coord):
-    """Function that assist with converting chess notation to a piece and coordinate"""
+    """Function that assists with converting chess notation to a piece and coordinate"""
     letter_dict = {'R': pieces.Rook, 'K': pieces.King, 'Q': pieces.Queen, 'B': pieces.Bishop,
                    'N': pieces.Knight}
     letters_list = letter_dict.keys()

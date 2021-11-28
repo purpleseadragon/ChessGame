@@ -31,9 +31,10 @@ def main():
     white_pieces, black_pieces = game_setup()
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}
-
+    turn_count = 0
+    white_pieces[0].print_board()
     while True:
-        white_pieces[0].print_board()  # prints board
+        # prints board
         # check if current turn player is in check / checkmate
         # if in check must block
         error_message = ''
@@ -44,14 +45,18 @@ def main():
             move = input(f"Please answer in the form of chess notation, eg Re5: ")
             if not isinstance(move_converter(move, turn_dict[current_turn]), str):
                 move_coord, piece_index = move_converter(move, turn_dict[current_turn])
-                print(move_coord)
                 break
             error_message = move_converter(move, turn_dict[current_turn])
 
         # performs the move
         turn_dict[current_turn][piece_index].move_piece(move_coord)
+        turn_count += 1
+        current_turn, next_turn = next_turn, current_turn
         white_pieces[0].print_board()
-        break
+
+        # early break
+        if turn_count > 2:
+            break
 
 
 def move_converter(move_in_notation, pieces_list):

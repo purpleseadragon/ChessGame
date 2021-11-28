@@ -1,4 +1,4 @@
-"""File that contains additional functions"""
+"""File that contains additional functions for pieces file"""
 
 
 def rook_move_helper_column(moves_range, colour_letter, board, column, check):

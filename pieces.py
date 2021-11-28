@@ -28,8 +28,10 @@ class Piece:
         return 'implement this'
 
     def print_board(self):
-        for row in self.board:
+        for num, row in enumerate(self.board):
             print(row)
+        #     print([self.coord_dict_rows[num]] + row)
+        # print(list(self.coord_dict_columns.values()))
 
     def return_board(self):
         return self.board
