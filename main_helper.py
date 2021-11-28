@@ -46,9 +46,9 @@ def move_converter_helper(notation_length, move_in_notation, pieces_list, move_c
                         piece_index = index
                         count += 1
 
+    # Length of 4 case in case of multiple possible moves
     if notation_length == 4:
         specifier_original = move_in_notation[1]
-        print(specifier_original)
         for index, piece in enumerate(pieces_list):
             # making sure specifier is valid
             if specifier_original in row_coords_list or specifier_original in column_coords_list:
@@ -58,7 +58,7 @@ def move_converter_helper(notation_length, move_in_notation, pieces_list, move_c
                 if specifier_original in column_coords_list:
                     specifier = coord_dict[specifier_original]
                     specifier_index = 1
-                print(specifier, specifier_index)
+
                 if piece_letter in letters_list:
                     if isinstance(piece, letter_dict[piece_letter]) and \
                             piece.location[specifier_index] == specifier:

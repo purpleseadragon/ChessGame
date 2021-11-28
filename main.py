@@ -58,6 +58,8 @@ def move_converter(move_in_notation, pieces_list):
     """Converts move to coordinates for piece if valid
     If invalid returns a string specifying the error"""
     # unpacking of location part of notation: eg 'e5' to 3, 4
+    if 'x' in move_in_notation:
+        move_in_notation = move_in_notation.replace('x', '')
     move_coord = (coord_dict[move_in_notation[-1]], coord_dict[move_in_notation[-2]])
     notation_length = len(move_in_notation)
     piece_index, count = move_converter_helper(notation_length, move_in_notation,
@@ -74,17 +76,4 @@ def move_converter(move_in_notation, pieces_list):
 
 
 if __name__ == '__main__':
-    # sample = pieces.Piece('white', (4, 5), board)
-    # print(sample.location)
-    # print(sample.colour)
-    # sample_rook = pieces.Rook('white', (3, 4), board)
-    # print(sample_rook.print_board())
-    # print(sample_rook.possible_moves())
-    # print(sample_rook.possible_moves(True))
-    # print(sample_rook.move_piece((3, 6)))
-    # print(sample_rook.location)
-    # print(sample_rook.possible_moves())
-    # print(sample_rook.move_piece((6, 7)))
-    # print(sample_rook.location)
-    # print(sample_rook.print_board())
     main()
