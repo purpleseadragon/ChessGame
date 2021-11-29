@@ -5,6 +5,27 @@ coord_dict = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7,
               '8': 0, '7': 1, '6': 2, '5': 3, '4': 4, '3': 5, '2': 6, '1': 7}
 
 
+def move_converter(move_in_notation, pieces_list):
+    """Converts move to coordinates for piece if valid
+    If invalid returns a string specifying the error"""
+    # unpacking of location part of notation: eg 'e5' to 3, 4
+    if 'x' in move_in_notation:
+        move_in_notation = move_in_notation.replace('x', '')
+    move_coord = (coord_dict[move_in_notation[-1]], coord_dict[move_in_notation[-2]])
+    notation_length = len(move_in_notation)
+    piece_index, count = move_converter_helper(notation_length, move_in_notation,
+                                               pieces_list, move_coord)
+
+    if count != 1:
+        # catches if two pieces can move to same square or move invalid
+        if count == 2:
+            return "Pls specify which piece should move, eg. Rfe5 instead of Re5"
+        else:
+            return "pls pick a valid move this time, don't be a muppet"
+
+    return move_coord, piece_index
+
+
 def move_converter_helper(notation_length, move_in_notation, pieces_list, move_coord):
     """Function that assists with converting chess notation to a piece and coordinate"""
     letter_dict = {'R': pieces.Rook, 'K': pieces.King, 'Q': pieces.Queen, 'B': pieces.Bishop,

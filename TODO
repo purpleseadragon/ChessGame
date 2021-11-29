@@ -1,9 +1,6 @@
 Todo list
-order of main while loop
--> check if king is in checkmate
--> prompt to make a move
--> if move invalid prompt to make another valid move
--> if multiple pieces can make move reprompt asking for more info eg Rfe3 instead of Re3
--> if results in check, reprompt asking the player to make a valid move
--> else make that move
+-> Implement bishop, pawn, knight, queen classes
+-> Pawn promotion, castling and en passant
+-> Checkmate and stalemate checking in main loop
+->
 
