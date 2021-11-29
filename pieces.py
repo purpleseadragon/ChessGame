@@ -27,10 +27,16 @@ class Piece:
         """returns letter that represents that piece, eg N for knight"""
         return 'implement this'
 
-    def print_board(self):
-        for num, row in enumerate(self.board):
-            print(row)
-        #     print([self.coord_dict_rows[num]] + row)
+    def print_board(self, colour):
+        if colour == 'white':
+            for row in self.board:
+                print(row)
+        reversed_board = self.board[::-1]
+        # prints board other way for black
+        if colour == 'black':
+            for row in reversed_board:
+                print(row[::-1])
+        # print([self.coord_dict_rows[num]] + row)
         # print(list(self.coord_dict_columns.values()))
 
     def return_board(self):

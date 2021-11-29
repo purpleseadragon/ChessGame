@@ -32,27 +32,53 @@ def main():
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}
     turn_count = 0
-    white_pieces[0].print_board()
+    white_pieces[0].print_board(current_turn)
     while True:
         # prints board
         # check if current turn player is in check / checkmate
+        for piece in turn_dict[current_turn]:
+            if isinstance(piece, pieces.King):
+                king_location = piece.location
+
+        all_possible_moves = []
+        for piece in turn_dict[next_turn]:
+            all_possible_moves += piece.possible_moves(True)
+        print(king_location)
+        print(all_possible_moves)
+
         # if in check must block
         error_message = ''
         while True:
             # while loop to get valid move
             print(f"It is currently {current_turn}'s turn, where would you like to move?")
             print(f'{error_message}')
+            if king_location in all_possible_moves:
+                print('Your king is in check, pls move out of check')
             move = input(f"Please answer in the form of chess notation, eg Re5: ")
+            
             if not isinstance(move_converter(move, turn_dict[current_turn]), str):
+                # making sure the move made is valid
                 move_coord, piece_index = move_converter(move, turn_dict[current_turn])
-                break
+                original_coord = turn_dict[current_turn][piece_index].location
+                # performs the move
+                turn_dict[current_turn][piece_index].move_piece(move_coord)
+                # making sure the king is not in check
+                for piece in turn_dict[current_turn]:
+                    if isinstance(piece, pieces.King):
+                        king_location = piece.location
+                all_possible_moves = []
+                for piece in turn_dict[next_turn]:
+                    all_possible_moves += piece.possible_moves(True)
+                if king_location not in all_possible_moves:
+                    break
+                # resets if move results in check
+                turn_dict[current_turn][piece_index].move_piece(original_coord)
+
             error_message = move_converter(move, turn_dict[current_turn])
 
-        # performs the move
-        turn_dict[current_turn][piece_index].move_piece(move_coord)
         turn_count += 1
         current_turn, next_turn = next_turn, current_turn
-        white_pieces[0].print_board()
+        white_pieces[0].print_board(current_turn)
 
         # early break
         if turn_count > 2:
