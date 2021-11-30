@@ -56,7 +56,6 @@ def main():
     complete_movelist = []
     # game loop
     while True:
-        print(complete_movelist)
         # Calls function that checks for check, checkmate and stalemate
         check, checkmate, stalemate = checkmate_checker(turn_dict[current_turn], turn_dict[next_turn])
         if checkmate:
@@ -67,8 +66,6 @@ def main():
             break
         error_message = ''
         while True:
-            print(turn_dict[next_turn])
-            print(turn_dict[current_turn])
             # while loop to get valid move
             print(f"It is currently {current_turn}'s turn, where would you like to move?")
             if error_message != '':
@@ -76,7 +73,6 @@ def main():
             if check:
                 print('Your king is in check, pls move out of check')
             move = input(f"Please answer in the form of chess notation, eg Re5: ")
-
             if not isinstance(move_converter(move, turn_dict[current_turn]), str):
                 # making sure the move made is valid
                 move_coord, piece_index = move_converter(move, turn_dict[current_turn])
