@@ -89,3 +89,59 @@ def move_converter_helper(notation_length, move_in_notation, pieces_list, move_c
                             count += 1
 
     return piece_index, count
+
+
+def checkmate_checker(current_turn_pieces, next_turn_pieces):
+    check = False
+    checkmate = True
+    stalemate = True
+    for piece in current_turn_pieces:
+        if isinstance(piece, pieces.King):
+            king_location = piece.location
+
+    all_possible_moves = []
+    for piece in next_turn_pieces:
+        all_possible_moves += piece.possible_moves(True)
+
+    if king_location in all_possible_moves:
+        check = True
+        stalemate = False
+        # need to check for checkmate
+        for piece in current_turn_pieces:
+            piece_location = piece.location
+            all_possible_moves_new = []
+            for move in piece.possible_moves():
+                original_piece = current_turn_pieces[0].board[move[0]][move[1]]
+                piece.move_piece(move)
+                for piece_king in current_turn_pieces:
+                    # in case it was king that was moved
+                    if isinstance(piece_king, pieces.King):
+                        king_location_new = piece_king.location
+                current_turn_pieces[0].board[move[0]][move[1]] = original_piece
+                for piece_new in next_turn_pieces:
+                    all_possible_moves_new += piece_new.possible_moves(True)
+                if king_location_new not in all_possible_moves_new:
+                    checkmate = False
+                    break
+            piece.move_piece(piece_location)
+    else:
+        checkmate = False
+        for piece in current_turn_pieces:
+            piece_location = piece.location
+            all_possible_moves_new = []
+            for move in piece.possible_moves():
+                original_piece = current_turn_pieces[0].board[move[0]][move[1]]
+                piece.move_piece(move)
+                for piece_king in current_turn_pieces:
+                    # in case it was king that was moved
+                    if isinstance(piece_king, pieces.King):
+                        king_location_new = piece_king.location
+                current_turn_pieces[0].board[move[0]][move[1]] = original_piece
+                for piece_new in next_turn_pieces:
+                    all_possible_moves_new += piece_new.possible_moves(True)
+                if king_location_new not in all_possible_moves_new:
+                    stalemate = False
+                    break
+            piece.move_piece(piece_location)
+
+    return check, checkmate, stalemate

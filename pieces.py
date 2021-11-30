@@ -10,7 +10,8 @@ class Piece:
         self.board = board
         self._has_moved = False
         self._colour_letter = self.colour[0]
-        self.board[self.location[0]][self.location[1]] = f'{self._colour_letter}{self.letter()}'
+        self.name = f'{self._colour_letter}{self.letter()}'
+        self.board[self.location[0]][self.location[1]] = self.name
         self.coord_dict_rows = {0: '8', 1: '7', 2: '6', 3: '5', 4: '4', 5: '3', 6: '2', 7: '1'}
         self.coord_dict_columns = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
@@ -61,7 +62,6 @@ class Rook(Piece):
         # board always square
         # rook moves up-down, left-right
         # check possible moves not yet considering other pieces
-
         possible_horizontal = []
         possible_vertical = []
         row = self.location[0]
@@ -118,31 +118,31 @@ class King(Piece):
         column = self.location[1]
 
         if row != 0:
-            if self.board[row-1][column][0] != self._colour_letter:
+            if self.board[row-1][column][0] != self._colour_letter or check:
                 lower_vertical = [(row - 1, column)]
             if column != 0:
-                if self.board[row - 1][column-1][0] != self._colour_letter:
+                if self.board[row - 1][column-1][0] != self._colour_letter or check:
                     upper_left_diag = [(row-1, column-1)]
             if column != 7:
-                if self.board[row - 1][column + 1][0] != self._colour_letter:
+                if self.board[row - 1][column + 1][0] != self._colour_letter or check:
                     upper_right_diag = [(row-1, column+1)]
 
         if row != 7:
-            if self.board[row+1][column][0] != self._colour_letter:
+            if self.board[row+1][column][0] != self._colour_letter or check:
                 upper_vertical = [(row + 1, column)]
             if column != 0:
-                if self.board[row+1][column-1][0] != self._colour_letter:
+                if self.board[row+1][column-1][0] != self._colour_letter or check:
                     lower_left_diag = [(row+1, column-1)]
             if column != 7:
-                if self.board[row+1][column+1][0] != self._colour_letter:
+                if self.board[row+1][column+1][0] != self._colour_letter or check:
                     lower_right_diag = [(row+1, column+1)]
 
         if column != 0:
-            if self.board[row][column-1][0] != self._colour_letter:
+            if self.board[row][column-1][0] != self._colour_letter or check:
                 lower_horizontal = [(row, column-1)]
 
         if column != 7:
-            if self.board[row][column+1][0] != self._colour_letter:
+            if self.board[row][column+1][0] != self._colour_letter or check:
                 upper_horizontal = [(row, column+1)]
 
         possible = upper_vertical + upper_horizontal + lower_vertical + lower_horizontal + \
