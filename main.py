@@ -48,7 +48,7 @@ def game_setup(num=0):
 
 def main():
     """main game loop"""
-    white_pieces, black_pieces = game_setup()
+    white_pieces, black_pieces = game_setup(2)
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}
     turn_count = 0

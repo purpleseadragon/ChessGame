@@ -109,39 +109,46 @@ def checkmate_checker(current_turn_pieces, next_turn_pieces):
         # need to check for checkmate
         for piece in current_turn_pieces:
             piece_location = piece.location
-            all_possible_moves_new = []
             for move in piece.possible_moves():
+                all_possible_moves_new = []
                 original_piece = current_turn_pieces[0].board[move[0]][move[1]]
                 piece.move_piece(move)
                 for piece_king in current_turn_pieces:
                     # in case it was king that was moved
                     if isinstance(piece_king, pieces.King):
                         king_location_new = piece_king.location
-                current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                 for piece_new in next_turn_pieces:
                     all_possible_moves_new += piece_new.possible_moves(True)
                 if king_location_new not in all_possible_moves_new:
                     checkmate = False
+                    piece.move_piece(piece_location)
+                    current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                     break
-            piece.move_piece(piece_location)
+                piece.move_piece(piece_location)
+                current_turn_pieces[0].board[move[0]][move[1]] = original_piece
+            # piece.move_piece(piece_location)
+            # current_turn_pieces[0].board[move[0]][move[1]] = original_piece
+
     else:
         checkmate = False
         for piece in current_turn_pieces:
             piece_location = piece.location
-            all_possible_moves_new = []
             for move in piece.possible_moves():
+                all_possible_moves_new = []
                 original_piece = current_turn_pieces[0].board[move[0]][move[1]]
                 piece.move_piece(move)
                 for piece_king in current_turn_pieces:
                     # in case it was king that was moved
                     if isinstance(piece_king, pieces.King):
                         king_location_new = piece_king.location
-                current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                 for piece_new in next_turn_pieces:
                     all_possible_moves_new += piece_new.possible_moves(True)
                 if king_location_new not in all_possible_moves_new:
                     stalemate = False
+                    piece.move_piece(piece_location)
+                    current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                     break
-            piece.move_piece(piece_location)
+                piece.move_piece(piece_location)
+                current_turn_pieces[0].board[move[0]][move[1]] = original_piece
 
     return check, checkmate, stalemate
