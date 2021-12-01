@@ -173,6 +173,7 @@ class Bishop(Piece):
 
 class Pawn(Piece):
     """Pawn class"""
+    # not going to consider last row as piece promotion will be handled elsewhere
     def possible_moves(self, check=False):
         row = self.location[0]
         column = self.location[1]
@@ -198,8 +199,6 @@ class Pawn(Piece):
             elif self.board[row+1][column] == '  ':
                 forward_moves = [(row+1, column)]
         possible = forward_moves + capture_moves
-        print(possible)
-        print(self.has_moved)
         return possible
 
     def letter(self):
