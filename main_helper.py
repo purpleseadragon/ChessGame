@@ -21,7 +21,7 @@ def move_converter(move_in_notation, pieces_list):
         if count == 2:
             return "Pls specify which piece should move, eg. Rfe5 instead of Re5"
         else:
-            return "pls pick a valid move this time, don't be a muppet"
+            return "Please pick a valid move"
 
     return move_coord, piece_index
 
@@ -121,12 +121,11 @@ def checkmate_checker(current_turn_pieces, next_turn_pieces):
                     all_possible_moves_new += piece_new.possible_moves(True)
                 if king_location_new not in all_possible_moves_new:
                     checkmate = False
-                    piece.move_piece(piece_location)
+                    piece.location = piece_location
                     current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                     break
-                piece.move_piece(piece_location)
+                piece.location = piece_location
                 current_turn_pieces[0].board[move[0]][move[1]] = original_piece
-
 
     else:
         checkmate = False
@@ -144,10 +143,10 @@ def checkmate_checker(current_turn_pieces, next_turn_pieces):
                     all_possible_moves_new += piece_new.possible_moves(True)
                 if king_location_new not in all_possible_moves_new:
                     stalemate = False
-                    piece.move_piece(piece_location)
+                    piece.location = piece_location
                     current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                     break
-                piece.move_piece(piece_location)
+                piece.location = piece_location
                 current_turn_pieces[0].board[move[0]][move[1]] = original_piece
 
     return check, checkmate, stalemate

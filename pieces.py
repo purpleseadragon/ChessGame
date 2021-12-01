@@ -8,7 +8,7 @@ class Piece:
         self.colour = colour
         self.location = location
         self.board = board
-        self._has_moved = False
+        self.has_moved = False
         self._colour_letter = self.colour[0]
         self.name = f'{self._colour_letter}{self.letter()}'
         self.board[self.location[0]][self.location[1]] = self.name
@@ -20,7 +20,6 @@ class Piece:
             self.board[self.location[0]][self.location[1]] = '  '
             self.location = move
             self.board[self.location[0]][self.location[1]] = f'{self._colour_letter}{self.letter()}'
-            self._has_moved = True
         else:
             return 'Pick a valid move pls'
 
@@ -180,11 +179,31 @@ class Pawn(Piece):
         forward_moves = []
         capture_moves = []
         if self.colour == 'white':
-            if not self._has_moved:
-                pass
+            if not self.has_moved:
+                forward_move_range = [row-1, row-2]
+                for num in forward_move_range:
+                    if self.board[num][column] == '  ':
+                        forward_moves += [(num, column)]
+                    else:
+                        break
+            elif self.board[row+1][column] == '  ':
+                forward_moves = [(row+1, column)]
+
+        elif self.colour == 'black':
+            if not self.has_moved:
+                forward_move_range = [row+1, row+2]
+                for num in forward_move_range:
+                    if self.board[num][column] == '  ':
+                        forward_moves += [(num, column)]
+            elif self.board[row+1][column] == '  ':
+                forward_moves = [(row+1, column)]
+        possible = forward_moves + capture_moves
+        print(possible)
+        print(self.has_moved)
+        return possible
 
     def letter(self):
-        return ''
+        return 'P'
 
 
 class Knight(Piece):

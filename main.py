@@ -23,8 +23,9 @@ def game_setup(num=0):
         white_rook_2 = pieces.Rook('white', (coord_dict['2'], coord_dict['b']), board)
         white_king = pieces.King('white', (coord_dict['1'], coord_dict['e']), board)
         black_king = pieces.King('black', (coord_dict['8'], coord_dict['f']), board)
+        black_pawn_1 = pieces.Pawn('black', (coord_dict['7'], coord_dict['b']), board)
         white_pieces = [white_rook_1, white_rook_2, white_king]
-        black_pieces = [black_king]
+        black_pieces = [black_king, black_pawn_1]
     elif num == 2:
         # stalemate testing piece set
         white_rook_1 = pieces.Rook('white', (coord_dict['1'], coord_dict['e']), board)
@@ -48,7 +49,7 @@ def game_setup(num=0):
 
 def main():
     """main game loop"""
-    white_pieces, black_pieces = game_setup()
+    white_pieces, black_pieces = game_setup(1)
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}
     turn_count = 0
@@ -59,10 +60,10 @@ def main():
         # Calls function that checks for check, checkmate and stalemate
         check, checkmate, stalemate = checkmate_checker(turn_dict[current_turn], turn_dict[next_turn])
         if checkmate:
-            print(f'Congratulations {next_turn}, you won the game')
+            print(f'Congratulations {next_turn}, you won the game by checkmate!')
             break
         if stalemate:
-            print(f'The game ended in stalemate so you both lost')
+            print(f'The game ended in stalemate')
             break
         error_message = ''
         while True:
@@ -80,6 +81,7 @@ def main():
                 original_piece = white_pieces[0].board[move_coord[0]][move_coord[1]]
                 # performs the move
                 turn_dict[current_turn][piece_index].move_piece(move_coord)
+                turn_dict[current_turn][piece_index].has_moved = True
                 # making sure the king is not in check
                 for piece in turn_dict[current_turn]:
                     if isinstance(piece, pieces.King):
@@ -96,7 +98,8 @@ def main():
                                 break
                     break
                 # resets if move results in check
-                turn_dict[current_turn][piece_index].move_piece(original_coord)
+                turn_dict[current_turn][piece_index].location = original_coord
+                turn_dict[current_turn][piece_index].has_moved = False
                 white_pieces[0].board[move_coord[0]][move_coord[1]] = original_piece
 
             error_message = move_converter(move, turn_dict[current_turn])
