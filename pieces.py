@@ -155,20 +155,39 @@ class King(Piece):
 
 
 class Queen(Piece):
+    """Queen class"""
+    def possible_moves(self, check=False):
+        pass
+
     def letter(self):
         return 'Q'
 
 
 class Bishop(Piece):
+    """Bishop class"""
+    def possible_moves(self, check=False):
+        pass
+
     def letter(self):
         return 'B'
 
 
 class Pawn(Piece):
+    """Pawn class"""
+    def possible_moves(self, check=False):
+        row = self.location[0]
+        column = self.location[1]
+        forward_moves = []
+        capture_moves = []
+        if self.colour == 'white':
+            if not self._has_moved:
+                pass
+
     def letter(self):
         return ''
 
 
 class Knight(Piece):
+    """Knight class"""
     def letter(self):
         return 'N'

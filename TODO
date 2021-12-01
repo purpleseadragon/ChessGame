@@ -1,6 +1,6 @@
 Todo list
 -> Implement bishop, pawn, knight, queen classes
 -> Pawn promotion, castling and en passant
--> Checkmate and stalemate checking in main loop
+-> Draw by repetition, 50 move rule -> can do by using moves_list
 ->
 

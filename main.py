@@ -48,7 +48,7 @@ def game_setup(num=0):
 
 def main():
     """main game loop"""
-    white_pieces, black_pieces = game_setup(2)
+    white_pieces, black_pieces = game_setup()
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}
     turn_count = 0
@@ -68,7 +68,7 @@ def main():
         while True:
             # while loop to get valid move
             print(f"It is currently {current_turn}'s turn, where would you like to move?")
-            if error_message != '':
+            if isinstance(error_message, str) and error_message != '':
                 print(f'{error_message}')
             if check:
                 print('Your king is in check, pls move out of check')
@@ -92,7 +92,6 @@ def main():
                     if original_piece != '  ':
                         for count, piece in enumerate(turn_dict[next_turn]):
                             if piece.location == move_coord:
-                                print(piece.location == move_coord)
                                 turn_dict[next_turn].pop(count)
                                 break
                     break

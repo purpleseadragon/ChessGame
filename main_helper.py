@@ -126,8 +126,7 @@ def checkmate_checker(current_turn_pieces, next_turn_pieces):
                     break
                 piece.move_piece(piece_location)
                 current_turn_pieces[0].board[move[0]][move[1]] = original_piece
-            # piece.move_piece(piece_location)
-            # current_turn_pieces[0].board[move[0]][move[1]] = original_piece
+
 
     else:
         checkmate = False
