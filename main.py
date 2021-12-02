@@ -24,8 +24,9 @@ def game_setup(num=0):
         white_king = pieces.King('white', (coord_dict['1'], coord_dict['e']), board)
         black_king = pieces.King('black', (coord_dict['8'], coord_dict['f']), board)
         black_pawn_1 = pieces.Pawn('black', (coord_dict['7'], coord_dict['b']), board)
+        black_knight_2 = pieces.Knight('black', (coord_dict['8'], coord_dict['g']), board)
         white_pieces = [white_rook_1, white_rook_2, white_king]
-        black_pieces = [black_king, black_pawn_1]
+        black_pieces = [black_king, black_pawn_1, black_knight_2]
     elif num == 2:
         # stalemate testing piece set
         white_rook_1 = pieces.Rook('white', (coord_dict['1'], coord_dict['e']), board)

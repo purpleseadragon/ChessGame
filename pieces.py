@@ -157,6 +157,7 @@ class King(Piece):
 class Queen(Piece):
     """Queen class"""
     def possible_moves(self, check=False):
+        """Queen combines the movesets of the rook and bishop"""
         pass
 
     def letter(self):
@@ -166,7 +167,13 @@ class Queen(Piece):
 class Bishop(Piece):
     """Bishop class"""
     def possible_moves(self, check=False):
-        pass
+        """Bishop can move diagonally in any direction"""
+        row = self.location[0]
+        column = self.location[1]
+        valid_squares = [0, 1, 2, 3, 4, 5, 6, 7]
+        possible = []
+        
+        return possible
 
     def letter(self):
         return 'B'
@@ -230,5 +237,19 @@ class Pawn(Piece):
 
 class Knight(Piece):
     """Knight class"""
+    def possible_moves(self, check=False):
+        """Knight moves in an L shape over other pieces,
+        eg. (0,0) attacks (1, 2), (2, 1), +1, +2, -1, -2"""
+        row = self.location[0]
+        column = self.location[1]
+        valid_squares = [0, 1, 2, 3, 4, 5, 6, 7]
+        combos = [(-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2), (2, -1), (2, 1)]
+        possible = []
+        for x, y in combos:
+            if (row + x in valid_squares) and (column + y in valid_squares):
+                if self.board[row + x][column + y][0] != self._colour_letter or check:
+                    possible += [(row + x, column + y)]
+        return possible
+
     def letter(self):
         return 'N'

@@ -1,6 +1,6 @@
 Todo list
--> Implement bishop, knight, queen classes
+-> Implement bishop, queen classes
 -> Pawn promotion, castling and en passant
--> Draw by repetition, 50 move rule -> can do by using moves_list
+-> Draw by repetition, 50 move rule
 ->
 
