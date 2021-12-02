@@ -57,7 +57,8 @@ class Rook(Piece):
     """Rook class"""
     def possible_moves(self, check=False):
         """returns list of possible moves for the given board state,
-        check makes it so first piece of same colour is also considered"""
+        check makes it so first piece of same colour is also considered,
+        Rook can move along rows and columns"""
         # board always square
         # rook moves up-down, left-right
         # check possible moves not yet considering other pieces
@@ -104,7 +105,7 @@ class King(Piece):
     """King class"""
     def possible_moves(self, check=False):
         """Does not include moves that would put king in check,
-        these will be covered in main loop"""
+        these will be covered in main loop, King can move one spot in any direction"""
         lower_horizontal = []
         lower_vertical = []
         upper_horizontal = []
@@ -175,10 +176,14 @@ class Pawn(Piece):
     """Pawn class"""
     # not going to consider last row as piece promotion will be handled elsewhere
     def possible_moves(self, check=False):
+        """Pawn can move one spot forward if there is no piece in front of, this is increased
+        to two spots if it hasn't moved yet. Pawn can capture diagonally one spot ahead."""
         row = self.location[0]
         column = self.location[1]
         forward_moves = []
-        capture_moves = []
+        left_capture_moves = []
+        right_capture_moves = []
+        # Forward moves
         if self.colour == 'white':
             if not self.has_moved:
                 forward_move_range = [row-1, row-2]
@@ -198,7 +203,25 @@ class Pawn(Piece):
                         forward_moves += [(num, column)]
             elif self.board[row+1][column] == '  ':
                 forward_moves = [(row+1, column)]
-        possible = forward_moves + capture_moves
+
+        # Capture moves
+        if self.colour == 'white':
+            if column != 0:
+                if (self.board[row-1][column-1][0] == 'b') or (check and self.board[row-1][column-1][0] == 'w'):
+                    left_capture_moves = [(row-1, column-1)]
+            if column != 7:
+                if (self.board[row-1][column+1][0] == 'b') or (check and self.board[row-1][column+1][0] == 'w'):
+                    left_capture_moves = [(row-1, column+1)]
+
+        if self.colour == 'black':
+            if column != 0:
+                if (self.board[row+1][column-1][0] == 'w') or (check and self.board[row+1][column-1][0] == 'b'):
+                    left_capture_moves = [(row+1, column-1)]
+            if column != 7:
+                if (self.board[row+1][column+1][0] == 'w') or (check and self.board[row+1][column+1][0] == 'b'):
+                    left_capture_moves = [(row+1, column+1)]
+
+        possible = forward_moves + left_capture_moves + right_capture_moves
         return possible
 
     def letter(self):

@@ -122,9 +122,11 @@ def checkmate_checker(current_turn_pieces, next_turn_pieces):
                 if king_location_new not in all_possible_moves_new:
                     checkmate = False
                     piece.location = piece_location
+                    piece.board[piece_location[0]][piece_location[1]] = piece.name
                     current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                     break
                 piece.location = piece_location
+                piece.board[piece_location[0]][piece_location[1]] = piece.name
                 current_turn_pieces[0].board[move[0]][move[1]] = original_piece
 
     else:
@@ -144,9 +146,11 @@ def checkmate_checker(current_turn_pieces, next_turn_pieces):
                 if king_location_new not in all_possible_moves_new:
                     stalemate = False
                     piece.location = piece_location
+                    piece.board[piece_location[0]][piece_location[1]] = piece.name
                     current_turn_pieces[0].board[move[0]][move[1]] = original_piece
                     break
                 piece.location = piece_location
+                piece.board[piece_location[0]][piece_location[1]] = piece.name
                 current_turn_pieces[0].board[move[0]][move[1]] = original_piece
 
     return check, checkmate, stalemate
