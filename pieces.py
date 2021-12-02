@@ -172,7 +172,7 @@ class Bishop(Piece):
         column = self.location[1]
         valid_squares = [0, 1, 2, 3, 4, 5, 6, 7]
         possible = []
-        
+
         return possible
 
     def letter(self):
