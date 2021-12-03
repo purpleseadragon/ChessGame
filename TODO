@@ -1,6 +1,5 @@
 Todo list
--> Implement bishop, queen classes
 -> Pawn promotion, castling and en passant
 -> Draw by repetition, 50 move rule
-->
+-> Tkinter or some other way of visually displaying the game
 
