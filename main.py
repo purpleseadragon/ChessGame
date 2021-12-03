@@ -19,14 +19,15 @@ def game_setup(num=0):
     """Sets up pieces for game"""
     if num == 1:
         # checkmate testing piece set
-        white_rook_1 = pieces.Rook('white', (coord_dict['1'], coord_dict['a']), board)
-        white_rook_2 = pieces.Rook('white', (coord_dict['2'], coord_dict['b']), board)
+        # white_rook_1 = pieces.Rook('white', (coord_dict['1'], coord_dict['a']), board)
+        white_bishop_1 = pieces.Bishop('white', (coord_dict['5'], coord_dict['d']), board)
         white_king = pieces.King('white', (coord_dict['1'], coord_dict['e']), board)
         black_king = pieces.King('black', (coord_dict['8'], coord_dict['f']), board)
-        black_pawn_1 = pieces.Pawn('black', (coord_dict['7'], coord_dict['b']), board)
-        black_knight_2 = pieces.Knight('black', (coord_dict['8'], coord_dict['g']), board)
-        white_pieces = [white_rook_1, white_rook_2, white_king]
-        black_pieces = [black_king, black_pawn_1, black_knight_2]
+        # black_pawn_1 = pieces.Pawn('black', (coord_dict['7'], coord_dict['b']), board)
+        # black_bishop_1 = pieces.Bishop('black', (coord_dict['3'], coord_dict['c']), board)
+        # black_knight_2 = pieces.Knight('black', (coord_dict['8'], coord_dict['g']), board)
+        white_pieces = [white_bishop_1, white_king]
+        black_pieces = [black_king]
     elif num == 2:
         # stalemate testing piece set
         white_rook_1 = pieces.Rook('white', (coord_dict['1'], coord_dict['e']), board)
@@ -36,21 +37,61 @@ def game_setup(num=0):
         white_pieces = [white_rook_1, white_rook_2, white_king]
         black_pieces = [black_king]
     else:
-        # standard testing
+        # standard board
+        # white pieces
         white_rook_1 = pieces.Rook('white', (coord_dict['1'], coord_dict['a']), board)
-        white_rook_2 = pieces.Rook('white', (coord_dict['2'], coord_dict['b']), board)
+        white_knight_1 = pieces.Knight('white', (coord_dict['1'], coord_dict['b']), board)
+        white_bishop_1 = pieces.Bishop('white', (coord_dict['1'], coord_dict['c']), board)
+        white_queen = pieces.Queen('white', (coord_dict['1'], coord_dict['d']), board)
         white_king = pieces.King('white', (coord_dict['1'], coord_dict['e']), board)
-        black_king = pieces.King('black', (coord_dict['8'], coord_dict['f']), board)
+        white_bishop_2 = pieces.Bishop('white', (coord_dict['1'], coord_dict['f']), board)
+        white_knight_2 = pieces.Knight('white', (coord_dict['1'], coord_dict['g']), board)
+        white_rook_2 = pieces.Rook('white', (coord_dict['1'], coord_dict['h']), board)
+
+        # white pawns
+        white_pawn_1 = pieces.Pawn('white', (coord_dict['2'], coord_dict['a']), board)
+        white_pawn_2 = pieces.Pawn('white', (coord_dict['2'], coord_dict['b']), board)
+        white_pawn_3 = pieces.Pawn('white', (coord_dict['2'], coord_dict['c']), board)
+        white_pawn_4 = pieces.Pawn('white', (coord_dict['2'], coord_dict['d']), board)
+        white_pawn_5 = pieces.Pawn('white', (coord_dict['2'], coord_dict['e']), board)
+        white_pawn_6 = pieces.Pawn('white', (coord_dict['2'], coord_dict['f']), board)
+        white_pawn_7 = pieces.Pawn('white', (coord_dict['2'], coord_dict['g']), board)
+        white_pawn_8 = pieces.Pawn('white', (coord_dict['2'], coord_dict['h']), board)
+
+        # black pieces
         black_rook_1 = pieces.Rook('black', (coord_dict['8'], coord_dict['a']), board)
-        black_rook_2 = pieces.Rook('black', (coord_dict['7'], coord_dict['b']), board)
-        white_pieces = [white_rook_1, white_rook_2, white_king]
-        black_pieces = [black_rook_1, black_rook_2, black_king]
+        black_knight_1 = pieces.Knight('black', (coord_dict['8'], coord_dict['b']), board)
+        black_bishop_1 = pieces.Bishop('black', (coord_dict['8'], coord_dict['c']), board)
+        black_queen = pieces.Queen('black', (coord_dict['8'], coord_dict['d']), board)
+        black_king = pieces.King('black', (coord_dict['8'], coord_dict['e']), board)
+        black_bishop_2 = pieces.Bishop('black', (coord_dict['8'], coord_dict['f']), board)
+        black_knight_2 = pieces.Knight('black', (coord_dict['8'], coord_dict['g']), board)
+        black_rook_2 = pieces.Rook('black', (coord_dict['8'], coord_dict['h']), board)
+
+        # black pawns
+        black_pawn_1 = pieces.Pawn('black', (coord_dict['7'], coord_dict['a']), board)
+        black_pawn_2 = pieces.Pawn('black', (coord_dict['7'], coord_dict['b']), board)
+        black_pawn_3 = pieces.Pawn('black', (coord_dict['7'], coord_dict['c']), board)
+        black_pawn_4 = pieces.Pawn('black', (coord_dict['7'], coord_dict['d']), board)
+        black_pawn_5 = pieces.Pawn('black', (coord_dict['7'], coord_dict['e']), board)
+        black_pawn_6 = pieces.Pawn('black', (coord_dict['7'], coord_dict['f']), board)
+        black_pawn_7 = pieces.Pawn('black', (coord_dict['7'], coord_dict['g']), board)
+        black_pawn_8 = pieces.Pawn('black', (coord_dict['7'], coord_dict['h']), board)
+
+        white_pieces = [white_rook_1, white_knight_1, white_bishop_1, white_queen, white_king, white_bishop_2,
+                        white_knight_2, white_rook_2, white_pawn_1, white_pawn_2, white_pawn_3, white_pawn_4,
+                        white_pawn_5, white_pawn_6, white_pawn_7, white_pawn_8]
+
+        black_pieces = [black_rook_1, black_knight_1, black_bishop_1, black_queen, black_king, black_bishop_2,
+                        black_knight_2, black_rook_2, black_pawn_1, black_pawn_2, black_pawn_3, black_pawn_4,
+                        black_pawn_5, black_pawn_6, black_pawn_7, black_pawn_8]
+
     return white_pieces, black_pieces
 
 
 def main():
     """main game loop"""
-    white_pieces, black_pieces = game_setup(1)
+    white_pieces, black_pieces = game_setup()
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}
     turn_count = 0
@@ -82,6 +123,7 @@ def main():
                 original_piece = white_pieces[0].board[move_coord[0]][move_coord[1]]
                 # performs the move
                 turn_dict[current_turn][piece_index].move_piece(move_coord)
+                moved_or_not = turn_dict[current_turn][piece_index].has_moved
                 turn_dict[current_turn][piece_index].has_moved = True
                 # making sure the king is not in check
                 for piece in turn_dict[current_turn]:
@@ -100,7 +142,8 @@ def main():
                     break
                 # resets if move results in check
                 turn_dict[current_turn][piece_index].location = original_coord
-                turn_dict[current_turn][piece_index].has_moved = False
+                if not moved_or_not:
+                    turn_dict[current_turn][piece_index].has_moved = False
                 white_pieces[0].board[move_coord[0]][move_coord[1]] = original_piece
 
             error_message = move_converter(move, turn_dict[current_turn])

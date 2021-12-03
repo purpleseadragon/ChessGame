@@ -89,12 +89,7 @@ class Rook(Piece):
         possible_horizontal += rook_move_helper_row(lower_horizontal_range, self._colour_letter, self.board, row, check)
         possible_horizontal += rook_move_helper_row(upper_horizontal_range, self._colour_letter, self.board, row, check)
 
-        possible = set(possible_vertical + possible_horizontal)
-        # sample_board = board.copy()
-        #
-        # for coord in possible:
-        #     sample_board[coord[0]][coord[1]] = 'x '
-        # sample_board[row][column] = 'R '
+        possible = possible_vertical + possible_horizontal
         return possible
 
     def letter(self):
@@ -158,7 +153,117 @@ class Queen(Piece):
     """Queen class"""
     def possible_moves(self, check=False):
         """Queen combines the movesets of the rook and bishop"""
-        pass
+        possible_horizontal = []
+        possible_vertical = []
+        row = self.location[0]
+        column = self.location[1]
+
+        # setup of possible vertical moves
+        lower_vertical_range = list(range(row))
+        lower_vertical_range.reverse()
+        upper_vertical_range = list(range(len(self.board) - row - 1))
+        for x, num in enumerate(upper_vertical_range):
+            upper_vertical_range[x] += row + 1
+
+        possible_vertical += rook_move_helper_column(lower_vertical_range, self._colour_letter, self.board, column,
+                                                     check)
+        possible_vertical += rook_move_helper_column(upper_vertical_range, self._colour_letter, self.board, column,
+                                                     check)
+
+        # setup of possible horizontal moves
+        lower_horizontal_range = list(range(column))
+        lower_horizontal_range.reverse()
+        upper_horizontal_range = list(range(len(self.board) - column - 1))
+        for x, num in enumerate(upper_horizontal_range):
+            upper_horizontal_range[x] += column + 1
+
+        possible_horizontal += rook_move_helper_row(lower_horizontal_range, self._colour_letter, self.board, row, check)
+        possible_horizontal += rook_move_helper_row(upper_horizontal_range, self._colour_letter, self.board, row, check)
+
+        possible_rook = possible_vertical + possible_horizontal
+
+        # Bishop code
+        valid_squares = [0, 1, 2, 3, 4, 5, 6, 7]
+        squares_range = [1, 2, 3, 4, 5, 6, 7]
+        possible_left_up = []
+        possible_left_down = []
+        possible_right_up = []
+        possible_right_down = []
+
+        # Bottom right diagonal
+        for num in squares_range:
+            if (row+num in valid_squares) and (column+num in valid_squares):
+                if self.board[row+num][column+num] == '  ':
+                    possible_right_down += [(row+num, column+num)]
+                    if check:
+                        possible_right_down += [(row+num, column+num)]
+                        break
+                    elif not check:
+                        if self.board[row+num][column+num][0] != self._colour_letter:
+                            possible_right_down += [(row+num, column+num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+
+        # Bottom left diagonal
+        for num in squares_range:
+            if (row+num in valid_squares) and (column-num in valid_squares):
+                if self.board[row+num][column-num] == '  ':
+                    possible_left_down += [(row+num, column-num)]
+                else:
+                    if check:
+                        possible_left_down += [(row+num, column-num)]
+                        break
+                    elif not check:
+                        if self.board[row+num][column-num][0] != self._colour_letter:
+                            possible_left_down += [(row+num, column-num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+
+        # Top right diagonal
+        for num in squares_range:
+            if (row-num in valid_squares) and (column+num in valid_squares):
+                if self.board[row-num][column+num] == '  ':
+                    possible_right_up += [(row-num, column+num)]
+                else:
+                    if check:
+                        possible_right_up += [(row-num, column+num)]
+                        break
+                    elif not check:
+                        if self.board[row-num][column+num][0] != self._colour_letter:
+                            possible_right_up += [(row-num, column+num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+
+        # Top left diagonal
+        for num in squares_range:
+            if (row-num in valid_squares) and (column-num in valid_squares):
+                if self.board[row-num][column-num] == '  ':
+                    possible_left_up += [(row-num, column-num)]
+                else:
+                    if check:
+                        possible_left_up += [(row-num, column-num)]
+                        break
+                    elif not check:
+                        if self.board[row-num][column-num][0] != self._colour_letter:
+                            possible_left_up += [(row-num, column-num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+        possible_bishop = possible_right_up + possible_left_up + possible_left_down + possible_right_down
+        possible = possible_rook + possible_bishop
+
+        return possible
 
     def letter(self):
         return 'Q'
@@ -171,8 +276,84 @@ class Bishop(Piece):
         row = self.location[0]
         column = self.location[1]
         valid_squares = [0, 1, 2, 3, 4, 5, 6, 7]
-        possible = []
+        squares_range = [1, 2, 3, 4, 5, 6, 7]
+        possible_left_up = []
+        possible_left_down = []
+        possible_right_up = []
+        possible_right_down = []
 
+        # Bottom right diagonal
+        for num in squares_range:
+            if (row+num in valid_squares) and (column+num in valid_squares):
+                if self.board[row+num][column+num] == '  ':
+                    possible_right_down += [(row+num, column+num)]
+                else:
+                    if check:
+                        possible_right_down += [(row+num, column+num)]
+                        break
+                    elif not check:
+                        if self.board[row+num][column+num][0] != self._colour_letter:
+                            possible_right_down += [(row+num, column+num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+
+        # Bottom left diagonal
+        for num in squares_range:
+            if (row+num in valid_squares) and (column-num in valid_squares):
+                if self.board[row+num][column-num] == '  ':
+                    possible_left_down += [(row+num, column-num)]
+                else:
+                    if check:
+                        possible_left_down += [(row+num, column-num)]
+                        break
+                    elif not check:
+                        if self.board[row+num][column-num][0] != self._colour_letter:
+                            possible_left_down += [(row+num, column-num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+
+        # Top right diagonal
+        for num in squares_range:
+            if (row-num in valid_squares) and (column+num in valid_squares):
+                if self.board[row-num][column+num] == '  ':
+                    possible_right_up += [(row-num, column+num)]
+                else:
+                    if check:
+                        possible_right_up += [(row-num, column+num)]
+                        break
+                    elif not check:
+                        if self.board[row-num][column+num][0] != self._colour_letter:
+                            possible_right_up += [(row-num, column+num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+
+        # Top left diagonal
+        for num in squares_range:
+            if (row-num in valid_squares) and (column-num in valid_squares):
+                if self.board[row-num][column-num] == '  ':
+                    possible_left_up += [(row-num, column-num)]
+                else:
+                    if check:
+                        possible_left_up += [(row-num, column-num)]
+                        break
+                    elif not check:
+                        if self.board[row-num][column-num][0] != self._colour_letter:
+                            possible_left_up += [(row-num, column-num)]
+                            break
+                        else:
+                            break
+            else:
+                break
+        possible = possible_right_up + possible_left_up + possible_left_down + possible_right_down
         return possible
 
     def letter(self):
