@@ -195,6 +195,7 @@ class Queen(Piece):
             if (row+num in valid_squares) and (column+num in valid_squares):
                 if self.board[row+num][column+num] == '  ':
                     possible_right_down += [(row+num, column+num)]
+                else:
                     if check:
                         possible_right_down += [(row+num, column+num)]
                         break
@@ -262,7 +263,6 @@ class Queen(Piece):
                 break
         possible_bishop = possible_right_up + possible_left_up + possible_left_down + possible_right_down
         possible = possible_rook + possible_bishop
-
         return possible
 
     def letter(self):
@@ -380,8 +380,8 @@ class Pawn(Piece):
                         forward_moves += [(num, column)]
                     else:
                         break
-            elif self.board[row+1][column] == '  ':
-                forward_moves = [(row+1, column)]
+            elif self.board[row-1][column] == '  ':
+                forward_moves = [(row-1, column)]
 
         elif self.colour == 'black':
             if not self.has_moved:
