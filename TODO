@@ -1,5 +1,5 @@
 Todo list
--> Pawn promotion, castling and en passant
+-> castling and en passant
 -> Draw by repetition, 50 move rule
 -> Tkinter or some other way of visually displaying the game
 -> Make queen, bishop rook possible moves code nicer

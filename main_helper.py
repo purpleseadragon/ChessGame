@@ -157,3 +157,16 @@ def checkmate_checker(current_turn_pieces, next_turn_pieces):
                 current_turn_pieces[0].board[move[0]][move[1]] = original_piece
 
     return check, checkmate, stalemate
+
+
+def promotion(pawn, piece_index, piece_list):
+    letter_dict = {'R': pieces.Rook, 'Q': pieces.Queen, 'B': pieces.Bishop, 'N': pieces.Knight}
+    colour, location, board = pawn.colour, pawn.location, pawn.board
+    while True:
+        promoted_piece = input('What piece would you like your pawn to be promoted to?, Answer Q for queen etc')
+        if promoted_piece in letter_dict:
+            new_piece = letter_dict[promoted_piece](colour, location, board)
+            piece_list.pop(piece_index)
+            piece_list.append(new_piece)
+            break
+    return piece_list
