@@ -108,6 +108,7 @@ def main():
             print(f'The game ended in stalemate')
             break
         error_message = ''
+
         while True:
             # while loop to get valid move
             print(f"It is currently {current_turn}'s turn, where would you like to move?")
@@ -119,13 +120,16 @@ def main():
             if not isinstance(move_converter(move, turn_dict[current_turn]), str):
                 # making sure the move made is valid
                 move_coord, piece_index = move_converter(move, turn_dict[current_turn])
+
                 # turn_dict[current_turn][piece_index] is current piece being moved
                 current_piece = turn_dict[current_turn][piece_index]
                 original_coord = current_piece.location
                 original_piece = white_pieces[0].board[move_coord[0]][move_coord[1]]
+
                 # performs the move
                 current_piece.move_piece(move_coord)
-                # checks whether moved yet incase reset needed
+
+                # checks whether moved yet in the case a reset is needed
                 moved_or_not = current_piece.has_moved
                 current_piece.has_moved = True
                 # making sure the king is not in check

@@ -4,3 +4,6 @@ Todo list
 -> Tkinter or some other way of visually displaying the game
 -> Make queen, bishop rook possible moves code nicer
 
+Castling->Make sure both king and rook havent moved
+King or the two spots in direction of rook not being attacked
+

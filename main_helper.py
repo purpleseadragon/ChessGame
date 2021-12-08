@@ -11,7 +11,9 @@ def move_converter(move_in_notation, pieces_list):
     # unpacking of location part of notation: eg 'e5' to 3, 4
     if 'x' in move_in_notation:
         move_in_notation = move_in_notation.replace('x', '')
-    if (move_in_notation[-1] in coord_dict.keys()) and (move_in_notation[-2] in coord_dict.keys()):
+    if move_in_notation == 'O-O' or move_in_notation == 'O-O-O':
+        return "Castling is not yet implemented"
+    elif (move_in_notation[-1] in coord_dict.keys()) and (move_in_notation[-2] in coord_dict.keys()):
         move_coord = (coord_dict[move_in_notation[-1]], coord_dict[move_in_notation[-2]])
     else:
         return "Please pick a valid move"
