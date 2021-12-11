@@ -36,8 +36,6 @@ class Piece:
         if colour == 'black':
             for row in reversed_board:
                 print(row[::-1])
-        # print([self.coord_dict_rows[num]] + row)
-        # print(list(self.coord_dict_columns.values()))
 
     def return_board(self):
         return self.board
