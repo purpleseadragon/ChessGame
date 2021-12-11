@@ -91,6 +91,7 @@ def game_setup(num=0):
 
 def main():
     """main game loop"""
+    print('Castling, en passant, draw by repetition and 50-move draw rule are not yet implemented.')
     white_pieces, black_pieces = game_setup()
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}

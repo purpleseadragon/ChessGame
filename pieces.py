@@ -148,6 +148,9 @@ class King(Piece):
     def letter(self):
         return 'K'
 
+    def castling_possible(self, side='kingside'):
+        pass
+
 
 class Queen(Piece):
     """Queen class"""
