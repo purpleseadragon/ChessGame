@@ -118,8 +118,9 @@ def main():
             if check:
                 print('Your king is in check, pls move out of check')
             move = input(f"Please answer in the form of chess notation, eg Re5: ")
+
+            # making sure the move made is valid
             if not isinstance(move_converter(move, turn_dict[current_turn]), str):
-                # making sure the move made is valid
                 move_coord, piece_index = move_converter(move, turn_dict[current_turn])
 
                 # turn_dict[current_turn][piece_index] is current piece being moved
@@ -133,33 +134,40 @@ def main():
                 # checks whether moved yet in the case a reset is needed
                 moved_or_not = current_piece.has_moved
                 current_piece.has_moved = True
+
+                # capturing
+                taken_piece = None
+                if original_piece != '  ':
+                    for count, piece in enumerate(turn_dict[next_turn]):
+                        if piece.location == move_coord:
+                            taken_piece = piece
+                            turn_dict[next_turn].pop(count)
+
                 # making sure the king is not in check
                 for piece in turn_dict[current_turn]:
                     if isinstance(piece, pieces.King):
                         king_location = piece.location
+
                 all_possible_moves = []
                 for piece in turn_dict[next_turn]:
                     all_possible_moves += piece.possible_moves(True)
+
                 if king_location not in all_possible_moves:
                     complete_movelist.append(move)
-                    if original_piece != '  ':
-                        for count, piece in enumerate(turn_dict[next_turn]):
-                            if piece.location == move_coord:
-                                turn_dict[next_turn].pop(count)
-                                # dealing with pawn promotion
-                                if not isinstance(current_piece, pieces.Pawn) or current_piece.location[0] != 7 and \
-                                        current_piece.location[0] != 0:
-                                    pass
-                                else:
-                                    turn_dict[current_turn] = \
-                                        promotion(current_piece, piece_index, turn_dict[current_turn])
-                                break
+                    if not isinstance(current_piece, pieces.Pawn) or current_piece.location[0] != 7 and \
+                            current_piece.location[0] != 0:
+                        pass
+                    else:
+                        turn_dict[current_turn] = promotion(current_piece, piece_index, turn_dict[current_turn])
                     break
+
                 # resets if move results in check
                 current_piece.location = original_coord
                 if not moved_or_not:
                     current_piece.has_moved = False
                 white_pieces[0].board[move_coord[0]][move_coord[1]] = original_piece
+                if taken_piece is not None:
+                    turn_dict[next_turn].append(taken_piece)
 
             error_message = move_converter(move, turn_dict[current_turn])
 

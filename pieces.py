@@ -7,6 +7,8 @@ class Piece:
         """Create a piece object with location information"""
         self.colour = colour
         self.location = location
+        self._row = self.location[0]
+        self._column = self.location[1]
         self.board = board
         self.has_moved = False
         self._colour_letter = self.colour[0]
@@ -16,18 +18,17 @@ class Piece:
         self.coord_dict_columns = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h'}
 
     def move_piece(self, move):
-        if move in self.possible_moves():
-            self.board[self.location[0]][self.location[1]] = '  '
-            self.location = move
-            self.board[self.location[0]][self.location[1]] = f'{self._colour_letter}{self.letter()}'
-        else:
-            return 'Pick a valid move pls'
+        """Moves piece to given location"""
+        self.board[self.location[0]][self.location[1]] = '  '
+        self.location = move
+        self.board[self.location[0]][self.location[1]] = self.name
 
     def letter(self):
         """returns letter that represents that piece, eg N for knight"""
         return 'implement this'
 
     def print_board(self, colour):
+        """Prints board as a list of lists"""
         if colour == 'white':
             for row in self.board:
                 print(row)
@@ -146,8 +147,26 @@ class King(Piece):
     def letter(self):
         return 'K'
 
-    def castling_possible(self, side='kingside'):
-        pass
+    def castling_possible(self, side):
+        row = self._row
+        column = self._column
+        if self.has_moved:
+            return False
+
+        elif side == 'kingside':
+            if self.board[row][column+1] == '  ' and self.board[row][column+2] == '  ':
+                return True
+            else:
+                return False
+
+        elif side == 'queenside':
+            if self.board[row][column-1] == '  ' and self.board[row][column-2] == '  ':
+                return True
+            else:
+                return False
+
+        else:
+            return 'Please pick a valid side; kingside or queenside'
 
 
 class Queen(Piece):
