@@ -1,6 +1,6 @@
 """Main file for chess game, run this to run the game"""
 import pieces
-from main_helper import move_converter, checkmate_checker, promotion
+from main_helper import move_converter, checkmate_checker, promotion, castling_checker
 coord_dict = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7,
               '8': 0, '7': 1, '6': 2, '5': 3, '4': 4, '3': 5, '2': 6, '1': 7}
 
@@ -168,6 +168,17 @@ def main():
                 white_pieces[0].board[move_coord[0]][move_coord[1]] = original_piece
                 if taken_piece is not None:
                     turn_dict[next_turn].append(taken_piece)
+
+            # dealing with castling
+            elif move_converter(move, turn_dict[current_turn]) == 'kingside' or \
+                    move_converter(move, turn_dict[current_turn]) == 'queenside':
+                side = move_converter(move, turn_dict[current_turn])
+                if castling_checker(turn_dict[current_turn], turn_dict[next_turn], side)[0]:
+                    king_index, rook_index, new_king_location, new_rook_location = \
+                        castling_checker(turn_dict[current_turn], turn_dict[next_turn], side)[1:]
+                    turn_dict[current_turn][king_index].move_piece(new_king_location)
+                    turn_dict[current_turn][rook_index].move_piece(new_rook_location)
+                    break
 
             error_message = move_converter(move, turn_dict[current_turn])
 

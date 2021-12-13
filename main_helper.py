@@ -11,8 +11,10 @@ def move_converter(move_in_notation, pieces_list):
     # unpacking of location part of notation: eg 'e5' to 3, 4
     if 'x' in move_in_notation:
         move_in_notation = move_in_notation.replace('x', '')
-    if move_in_notation == 'O-O' or move_in_notation == 'O-O-O':
-        return "Castling is not yet implemented"
+    if move_in_notation == 'O-O':
+        return 'kingside'
+    elif move_in_notation == 'O-O-O':
+        return 'queenside'
     elif (move_in_notation[-1] in coord_dict.keys()) and (move_in_notation[-2] in coord_dict.keys()):
         move_coord = (coord_dict[move_in_notation[-1]], coord_dict[move_in_notation[-2]])
     else:
@@ -172,3 +174,41 @@ def promotion(pawn, piece_index, piece_list):
             piece_list.append(new_piece)
             break
     return piece_list
+
+
+def castling_checker(current_turn_pieces, next_turn_pieces, side):
+    """Checks whether castling is valid; Invalid if king or rook has moved,
+    king or adjacent two squares attacked by an opposing piece,
+    pieces between them"""
+    side_dict_rook = {'queenside': 0, 'kingside': 7}
+    side_dict_squares = {'queenside': [2, 3, 4], 'kingside': [4, 5, 6]}
+    move_dict_king = {'queenside': 2, 'kingside': 6}
+    move_dict_rook = {'queenside': 3, 'kingside': 5}
+    rook = None
+    for count, piece in enumerate(current_turn_pieces):
+        if isinstance(piece, pieces.King):
+            king_location = piece.location
+            king = piece
+            king_index = count
+        elif isinstance(piece, pieces.Rook) and piece.location[1] == side_dict_rook[side]:
+            rook_location = piece.location
+            rook = piece
+            rook_index = count
+    if rook is None:
+        return False
+    if not king.castling_possible(side):
+        return False
+    if rook.has_moved:
+        return False
+
+    row = king_location[0]
+
+    all_possible_moves = []
+    for piece in next_turn_pieces:
+        all_possible_moves += piece.possible_moves(True)
+    for num in side_dict_squares[side]:
+        if (row, num) in all_possible_moves:
+            return False
+    new_king_location = (king_location[0], move_dict_king[side])
+    new_rook_location = (rook_location[0], move_dict_rook[side])
+    return True, king_index, rook_index, new_king_location, new_rook_location
