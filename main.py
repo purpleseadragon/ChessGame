@@ -95,13 +95,38 @@ def main():
     white_pieces, black_pieces = game_setup()
     current_turn, next_turn = 'white', 'black'
     turn_dict = {'white': white_pieces, 'black': black_pieces}
-    turn_count = 0
     white_pieces[0].print_board(current_turn)
-    complete_movelist = []
+    pgn = ''
+    move, capture = '', False
+    turn_count = 0
     # game loop
     while True:
         # Calls function that checks for check, checkmate and stalemate
         check, checkmate, stalemate = checkmate_checker(turn_dict[current_turn], turn_dict[next_turn])
+
+        # sorting out pgn
+        if current_turn == 'black':
+            turn_count += 1
+
+        if turn_count != 0:
+            if capture and ('x' not in move):
+                if isinstance(current_piece, pieces.Pawn):
+                    move = original_coord_notation[0] + move[0] + 'x' + move[1:]
+                else:
+                    move = move[0] + 'x' + move[1:]
+            if checkmate:
+                move += '#'
+                if current_turn == 'black':
+                    move += ' 1-0'
+                else:
+                    move += ' 0-1'
+            elif check:
+                move += '+'
+            if current_turn == 'black':
+                pgn += f'{turn_count}. {move}'
+            else:
+                pgn += f' {move} '
+
         if checkmate:
             print(f'Congratulations {next_turn}, you won the game by checkmate!')
             break
@@ -126,6 +151,7 @@ def main():
                 # turn_dict[current_turn][piece_index] is current piece being moved
                 current_piece = turn_dict[current_turn][piece_index]
                 original_coord = current_piece.location
+                original_coord_notation = current_piece.coordinate_chess_notation()
                 original_piece = white_pieces[0].board[move_coord[0]][move_coord[1]]
 
                 # performs the move
@@ -136,8 +162,10 @@ def main():
                 current_piece.has_moved = True
 
                 # capturing
+                capture = False
                 taken_piece = None
                 if original_piece != '  ':
+                    capture = True
                     for count, piece in enumerate(turn_dict[next_turn]):
                         if piece.location == move_coord:
                             taken_piece = piece
@@ -153,7 +181,6 @@ def main():
                     all_possible_moves += piece.possible_moves(True)
 
                 if king_location not in all_possible_moves:
-                    complete_movelist.append(move)
                     if not isinstance(current_piece, pieces.Pawn) or current_piece.location[0] != 7 and \
                             current_piece.location[0] != 0:
                         pass
@@ -182,9 +209,9 @@ def main():
 
             error_message = move_converter(move, turn_dict[current_turn])
 
-        turn_count += 1
         current_turn, next_turn = next_turn, current_turn
         white_pieces[0].print_board(current_turn)
+    print(pgn)
 
 
 if __name__ == '__main__':

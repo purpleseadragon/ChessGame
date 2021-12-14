@@ -7,8 +7,6 @@ class Piece:
         """Create a piece object with location information"""
         self.colour = colour
         self.location = location
-        self._row = self.location[0]
-        self._column = self.location[1]
         self.board = board
         self.has_moved = False
         self._colour_letter = self.colour[0]
@@ -45,11 +43,16 @@ class Piece:
         return 'implement this'
 
     def possible_moves_notation(self, check=False):
+        # this is mainly for bug checking
         chess_notation_list = []
         for row, column in self.possible_moves(check):
             chess_notation_list.append(f'{self.coord_dict_columns[column]}{self.coord_dict_rows[row]}')
         chess_notation_list.sort()
         return chess_notation_list
+
+    def coordinate_chess_notation(self):
+        """returns current coordinate in chess notation"""
+        return f'{self.coord_dict_columns[self.location[1]]}{self.coord_dict_rows[self.location[0]]}'
 
 
 class Rook(Piece):
